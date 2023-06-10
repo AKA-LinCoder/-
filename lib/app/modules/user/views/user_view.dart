@@ -10,8 +10,17 @@ class UserView extends GetView<UserController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('UserView'),
+        title:  Text('user'.tr),
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){
+            if(Get.locale==const Locale('zh','CN')){
+              Get.updateLocale(const Locale('en','US'));
+            }else if(Get.locale==const Locale('en','US')){
+              Get.updateLocale(const Locale('zh','CN'));
+            }
+          }, icon: const Icon(Icons.language))
+        ],
       ),
       body: const Center(
         child: Text(

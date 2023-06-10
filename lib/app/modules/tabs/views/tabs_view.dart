@@ -18,12 +18,12 @@ class TabsView extends GetView<TabsController> {
           controller.setCurrentIndex(index);
           controller.pageController.jumpToPage(index);
         },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
-          BottomNavigationBarItem(icon: Icon(Icons.category), label: "分类"),
-          BottomNavigationBarItem(icon: Icon(Icons.room_service), label: "服务"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "购物车"),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: "用户"),
+        items:  [
+          BottomNavigationBarItem(icon: const Icon(Icons.home), label: 'home'.tr),
+          BottomNavigationBarItem(icon: const Icon(Icons.category), label: "category".tr),
+          BottomNavigationBarItem(icon: const Icon(Icons.room_service), label: "service".tr),
+          BottomNavigationBarItem(icon: const Icon(Icons.shopping_cart), label: "cart".tr),
+          BottomNavigationBarItem(icon: const Icon(Icons.people), label: "user".tr),
         ],
       ),
       body: PageView(
