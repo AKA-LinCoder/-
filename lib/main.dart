@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
@@ -22,6 +23,10 @@ void main() async{
     deviceLocale = const Locale('en','US');
   }
 
+  //设置透明状态栏
+  SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+  SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+
   runApp(
     ScreenUtilInit(
       designSize: const Size(1080, 2400),
@@ -30,6 +35,7 @@ void main() async{
       builder: (context,child){
         return GetMaterialApp(
           title: "Application",
+          debugShowCheckedModeBanner: false,
           translations: Messages(),
           locale: deviceLocale,
           fallbackLocale: const Locale('en','US'),

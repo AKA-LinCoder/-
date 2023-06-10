@@ -13,6 +13,9 @@ class HomeView extends GetView<HomeController> {
     return KeepAliveWrapper(
       child: Scaffold(
         appBar: AppBar(
+          //appBar透明
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           title: const Text('HomeView'),
           centerTitle: true,
         ),
