@@ -16,21 +16,27 @@ class HomeView extends GetView<HomeController> {
       child: Scaffold(
         body: Stack(
           children: [
-            ListView.builder(
-                itemCount: 20,
-                controller: controller.scrollController,
-                itemBuilder: (context,index){
-                  if(index==0){
-                    return SizedBox(
-                      width: ScreenAdapter.width(1080),
-                      height: ScreenAdapter.height(682),
-                      child: Image.network("https://www.itying.com/images/focus/focus02.png",fit: BoxFit.fill,),
-                    );
-                  }else{
-                    return ListTile(title: Text("第$index个item"),);
-                  }
+            Positioned(
+              top: -ScreenAdapter.height(180),
+              right: 0,
+              bottom: 0,
+              left: 0,
+              child: ListView.builder(
+                  itemCount: 20,
+                  controller: controller.scrollController,
+                  itemBuilder: (context,index){
+                    if(index==0){
+                      return SizedBox(
+                        width: ScreenAdapter.width(1080),
+                        height: ScreenAdapter.height(682),
+                        child: Image.network("https://www.itying.com/images/focus/focus02.png",fit: BoxFit.fill,),
+                      );
+                    }else{
+                      return ListTile(title: Text("第$index个item"),);
+                    }
 
-            }),
+              }),
+            ),
             Positioned(
                 left: 0,
                 right: 0,
