@@ -18,6 +18,7 @@ class HomeView extends GetView<HomeController> {
           children: [
             ListView.builder(
                 itemCount: 20,
+                controller: controller.scrollController,
                 itemBuilder: (context,index){
                   if(index==0){
                     return SizedBox(
@@ -34,40 +35,42 @@ class HomeView extends GetView<HomeController> {
                 left: 0,
                 right: 0,
                 top: 0,
-                child: AppBar(
+                child: Obx(() => AppBar(
                   //appBar透明
-                  backgroundColor: Colors.transparent,
+                  backgroundColor: controller.flag.value?Colors.white: Colors.transparent,
                   elevation: 0,
-                  title: Container(
-                    width: ScreenAdapter.width(620),
+                  title: AnimatedContainer(
+                    duration: const Duration(milliseconds: 600),
+                    width: controller.flag.value?ScreenAdapter.width(800):ScreenAdapter.width(620),
                     height: ScreenAdapter.height(96),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30)
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)
                     ),
                     child:  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                         Row(
-                           children: [
-                             Icon(Icons.search,color: Colors.grey[400],),
-                             Text("手机",style: TextStyle(color: Colors.grey,fontSize: ScreenAdapter.fontSize(40)),),
-                           ],
-                         ),
+                          Row(
+                            children: [
+                              Icon(Icons.search,color: Colors.grey[400],),
+                              Text("手机",style: TextStyle(color: Colors.grey,fontSize: ScreenAdapter.fontSize(40)),),
+                            ],
+                          ),
                           Icon(Icons.settings_overscan,color: Colors.grey[400],)
                         ],
                       ),
                     ),
                   ),
                   centerTitle: true,
-                  leading: IconButton(onPressed: (){},icon: const Icon(EchoFonts.xiaomi),),
+                  leadingWidth: controller.flag.value?0:ScreenAdapter.width(140),
+                  leading: controller.flag.value?Container():IconButton(onPressed: (){},icon: const Icon(EchoFonts.xiaomi),),
                   actions: [
-                    IconButton(onPressed: (){}, icon: const Icon(Icons.qr_code)),
-                    IconButton(onPressed: (){}, icon: const Icon(Icons.message))
+                    IconButton(onPressed: (){}, icon:  Icon(Icons.qr_code,color: controller.flag.value?Colors.black87:Colors.white,)),
+                    IconButton(onPressed: (){}, icon:  Icon(Icons.message,color: controller.flag.value?Colors.black87:Colors.white,)),
                   ],
-                ))
+                )))
           ],
         ),
       ),
