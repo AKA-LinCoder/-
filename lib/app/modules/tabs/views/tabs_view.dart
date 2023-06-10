@@ -14,7 +14,10 @@ class TabsView extends GetView<TabsController> {
         iconSize: 25,
         currentIndex: controller.currentIndex.value,
         type: BottomNavigationBarType.fixed,
-        onTap: controller.setCurrentIndex,
+        onTap: (index){
+          controller.setCurrentIndex(index);
+          controller.pageController.jumpToPage(index);
+        },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
           BottomNavigationBarItem(icon: Icon(Icons.category), label: "分类"),
@@ -23,7 +26,11 @@ class TabsView extends GetView<TabsController> {
           BottomNavigationBarItem(icon: Icon(Icons.people), label: "用户"),
         ],
       ),
-      body: controller.pages[controller.currentIndex.value],
+      body: PageView(
+        controller: controller.pageController,
+        onPageChanged: controller.setCurrentIndex,
+        children: controller.pages,
+      ),
     ));
   }
 }

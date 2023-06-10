@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xiaomi/app/modules/cart/views/cart_view.dart';
 import 'package:xiaomi/app/modules/category/views/category_view.dart';
@@ -10,6 +11,7 @@ class TabsController extends GetxController {
 
 
   final currentIndex = 0.obs;
+  final PageController pageController = PageController(initialPage: 0);
   final pages = const [
     HomeView(),
     CategoryView(),
