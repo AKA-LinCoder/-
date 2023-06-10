@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:xiaomi/app/services/screen_adapter.dart';
 
 import '../controllers/category_controller.dart';
 
@@ -13,10 +14,10 @@ class CategoryView extends GetView<CategoryController> {
         title: const Text('CategoryView'),
         centerTitle: true,
       ),
-      body: const Center(
+      body:  Center(
         child: Text(
-          'CategoryView is working',
-          style: TextStyle(fontSize: 20),
+          '分类 is working',
+          style: TextStyle(fontSize: ScreenAdapter.fontSize(60)),
         ),
       ),
     );
