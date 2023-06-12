@@ -5,6 +5,7 @@ class HomeController extends GetxController {
   //TODO: Implement HomeController
 
   ScrollController scrollController = ScrollController();
+  //浮动导航开关
   RxBool flag = false.obs;
   @override
   void onInit() {
@@ -26,6 +27,15 @@ class HomeController extends GetxController {
     });
   }
 
+
+  RxList swiperList = [
+    {
+      "url":"https://www.itying.com/images/focus/focus02.png",
+    },
+    {
+      "url":"https://www.itying.com/images/focus/focus02.png",
+    }
+  ].obs;
 
   @override
   void dispose() {
