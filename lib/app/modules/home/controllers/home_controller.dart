@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xiaomi/app/models/focus_model.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
@@ -8,6 +9,8 @@ class HomeController extends GetxController {
   ScrollController scrollController = ScrollController();
   //浮动导航开关
   RxBool flag = false.obs;
+  //轮播图item
+  RxList<FocusItemModel> swiperList = <FocusItemModel>[].obs;
   @override
   void onInit() {
     super.onInit();
@@ -38,12 +41,13 @@ class HomeController extends GetxController {
 
   getFocusData()async{
     var res = await Dio().get("https://xiaomi.itying.com/api/focus");
-    swiperList.value = res.data["result"];
+    List value = res.data["result"];
+    swiperList.value = value.map((e) => FocusItemModel.fromJson(e)).toList();
+    
     update();
   }
 
-  RxList swiperList = [
-  ].obs;
+
 
   @override
   void dispose() {

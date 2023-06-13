@@ -107,7 +107,7 @@ class HomeView extends GetView<HomeController> {
               child: Obx(() => Swiper(
                 itemCount: controller.swiperList.length,
                 itemBuilder: (context,index){
-                  String picUrl = "https://xiaomi.itying.com/${controller.swiperList.value[index]["pic"]}";
+                  String picUrl = "https://xiaomi.itying.com/${controller.swiperList.value[index].pic}";
                   
                   return Image.network(picUrl.replaceAll("\\", "/"),fit: BoxFit.fill,);
                 },
@@ -129,7 +129,7 @@ class HomeView extends GetView<HomeController> {
         body: Stack(
           children: [
             getHomePage(),
-            getAppBar()
+            getAppBar(),
           ],
         ),
       ),
