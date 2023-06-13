@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:xiaomi/app/models/focus_model.dart';
 
 import '../../../models/category_model.dart';
+import '../../../models/plist_model.dart';
+import '../../../services/https_client.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
@@ -14,6 +16,10 @@ class HomeController extends GetxController {
   //轮播图item
   RxList<FocusItemModel> swiperList = <FocusItemModel>[].obs;
   RxList<CategoryItemModel> bestCateList = <CategoryItemModel>[].obs;
+  RxList<PlistItemModel> sellingPlist = <PlistItemModel>[].obs;
+  RxList<PlistItemModel> bestPlist = <PlistItemModel>[].obs;
+  RxList<FocusItemModel> bestSellingSwiperList = <FocusItemModel>[].obs;
+  HttpsClient httpsClient = HttpsClient();
   @override
   void onInit() {
     super.onInit();
@@ -22,6 +28,10 @@ class HomeController extends GetxController {
     ///请求接口
     getFocusData();
     getCategoryData();
+    //获取热销臻选里面的轮播图
+    getSellingSwiperData();
+    //获取热销臻选里面的商品
+    getSellingPlistData();
 
   }
 
@@ -57,7 +67,25 @@ class HomeController extends GetxController {
     update();
   }
 
+  //获取热销臻选里面的轮播图
+  getSellingSwiperData() async {
+    var response = await httpsClient.get("api/focus?position=2");
+    if (response != null) {
+      var sellingSwiper = FocusModel.fromJson(response.data);
+      bestSellingSwiperList.value = sellingSwiper.result!;
+      update();
+    }
+  }
 
+//获取热销臻选里面的商品数据
+  getSellingPlistData() async {
+    var response = await httpsClient.get("api/plist?is_hot=1&pageSize=3");
+    if (response != null) {
+      var plist = PlistModel.fromJson(response.data);
+      sellingPlist.value = plist.result!;
+      update();
+    }
+  }
 
   @override
   void dispose() {

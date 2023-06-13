@@ -7,6 +7,7 @@ import 'package:xiaomi/app/services/echo_fonts.dart';
 import 'package:xiaomi/app/services/keep_alive_wrapper.dart';
 import 'package:xiaomi/app/services/screen_adapter.dart';
 
+import '../../../services/https_client.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -114,6 +115,199 @@ class HomeView extends GetView<HomeController> {
       );
     }
 
+
+    Widget getBanner2(){
+      return Obx(() => SizedBox(
+        width: ScreenAdapter.width(1080),
+        height: ScreenAdapter.height(470),
+        child: Swiper(
+          itemCount: (controller.bestCateList.length) ~/ (10),
+          itemBuilder: (context, index) {
+            return GridView.builder(
+                itemCount: 10,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 5,
+                    crossAxisSpacing: ScreenAdapter.width(20),
+                    mainAxisSpacing: ScreenAdapter.height(20)
+                ),
+                itemBuilder: (context, i) {
+                  String picUrl =
+                      "https://xiaomi.itying.com/${controller.bestCateList.value[index*10+i].pic}";
+                  return Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          height: ScreenAdapter.height(140),
+                          width: ScreenAdapter.height(140),
+                          child: Image.network(
+                            picUrl.replaceAll("\\", "/"),
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:  EdgeInsets.fromLTRB(0, ScreenAdapter.height(4), 0, 0),
+                        child: Text(controller.bestCateList.value[index*10+i].title??'',style: TextStyle(fontSize: ScreenAdapter.fontSize(34)),),
+                      )
+                    ],
+                  );
+                });
+          },
+          pagination:
+          const SwiperPagination(builder: SwiperPagination.rect),
+          autoplay: true,
+          loop: true,
+          duration: 1000,
+        ),
+      ));
+    }
+
+
+    //热销臻选
+    Widget bestSelling() {
+      return Column(
+        children: [
+          Padding(
+              padding: EdgeInsets.fromLTRB(
+                  ScreenAdapter.width(30),
+                  ScreenAdapter.height(40),
+                  ScreenAdapter.width(30),
+                  ScreenAdapter.height(20)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("热销臻选",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: ScreenAdapter.fontSize(46))),
+                  Text("更多手机推荐 >",
+                      style: TextStyle(fontSize: ScreenAdapter.fontSize(38)))
+                ],
+              )),
+          Padding(
+            padding: EdgeInsets.fromLTRB(ScreenAdapter.width(20), 0,
+                ScreenAdapter.width(20), ScreenAdapter.height(20)),
+            child: Row(
+              children: [
+                //左侧
+                Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      height: ScreenAdapter.height(738),
+                      child: Obx(() => Swiper(
+                          itemBuilder: (context, index) {
+                            return Image.network(
+                              HttpsClient.replaceUri(
+                                  controller.bestSellingSwiperList[index].pic),
+                              fit: BoxFit.fill,
+                            );
+                          },
+                          itemCount: controller.bestSellingSwiperList.length,
+                          autoplay: true,
+                          loop: true,
+                          pagination: SwiperPagination(
+                              margin: const EdgeInsets.all(0.0),
+                              builder: SwiperCustomPagination(builder:
+                                  (BuildContext context,
+                                  SwiperPluginConfig config) {
+                                return ConstrainedBox(
+                                  constraints: BoxConstraints.expand(
+                                      height: ScreenAdapter.height(36)),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child:
+                                          const RectSwiperPaginationBuilder(
+                                            color: Colors.black12,
+                                            activeColor: Colors.black54,
+                                          ).build(context, config),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              })))),
+                    )),
+                SizedBox(width: ScreenAdapter.width(20)),
+                //右侧
+                Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      height: ScreenAdapter.height(738),
+                      child: Obx(() => Column(
+                          children: controller.sellingPlist
+                              .asMap()
+                              .entries
+                              .map((entrie) {
+                            var value = entrie.value;
+                            return Expanded(
+                                flex: 1,
+                                child: Container(
+                                  color: const Color.fromRGBO(246, 246, 246, 1),
+                                  margin: EdgeInsets.fromLTRB(
+                                      0,
+                                      0,
+                                      0,
+                                      entrie.key == 2
+                                          ? 0
+                                          : ScreenAdapter.height(20)),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                                height: ScreenAdapter.height(20)),
+                                            Text("${value.title}",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                    ScreenAdapter.fontSize(
+                                                        38),
+                                                    fontWeight: FontWeight.bold)),
+                                            SizedBox(
+                                                height: ScreenAdapter.height(20)),
+                                            Text("${value.subTitle}",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                    ScreenAdapter.fontSize(
+                                                        28))),
+                                            SizedBox(
+                                                height: ScreenAdapter.height(20)),
+                                            Text("￥${value.price}元",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                    ScreenAdapter.fontSize(
+                                                        34)))
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Padding(
+                                          padding: EdgeInsets.all(
+                                              ScreenAdapter.height(8)),
+                                          child: Image.network(
+                                              HttpsClient.replaceUri(value.pic),
+                                              fit: BoxFit.cover),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ));
+                          }).toList())),
+                    )),
+              ],
+            ),
+          )
+        ],
+      );
+    }
+
     ///内容区域
     Widget getHomePage() {
       return Positioned(
@@ -134,54 +328,28 @@ class HomeView extends GetView<HomeController> {
                 fit: BoxFit.cover,
               ),
             ),
-            Obx(() => SizedBox(
-              width: ScreenAdapter.width(1080),
-              height: ScreenAdapter.height(470),
-              child: Swiper(
-                itemCount: (controller.bestCateList.length) ~/ (10),
-                itemBuilder: (context, index) {
-                  return GridView.builder(
-                      itemCount: 10,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 5,
-                          crossAxisSpacing: ScreenAdapter.width(20),
-                          mainAxisSpacing: ScreenAdapter.height(20)
-                      ),
-                      itemBuilder: (context, i) {
-                        String picUrl =
-                            "https://xiaomi.itying.com/${controller.bestCateList.value[index*10+i].pic}";
-                        return Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                height: ScreenAdapter.height(140),
-                                width: ScreenAdapter.height(140),
-                                child: Image.network(
-                                  picUrl.replaceAll("\\", "/"),
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:  EdgeInsets.fromLTRB(0, ScreenAdapter.height(4), 0, 0),
-                              child: Text(controller.bestCateList.value[index*10+i].title??'',style: TextStyle(fontSize: ScreenAdapter.fontSize(34)),),
-                            )
-                          ],
-                        );
-                      });
-                },
-                pagination:
-                const SwiperPagination(builder: SwiperPagination.rect),
-                autoplay: true,
-                loop: true,
-                duration: 1000,
+            getBanner2(),
+              Padding(padding: EdgeInsets.fromLTRB(ScreenAdapter.width(20), 0, ScreenAdapter.width(20), 0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    image: const DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage("assets/images/xiaomiBanner2.png")
+                    )
+                  ),
+                    height: ScreenAdapter.height(420),
+                    ),
               ),
-            ))
+            bestSelling()
           ],
         ),
       );
     }
+
+
+
+
 
     return KeepAliveWrapper(
       child: Scaffold(
