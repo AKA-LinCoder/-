@@ -32,6 +32,8 @@ class HomeController extends GetxController {
     getSellingSwiperData();
     //获取热销臻选里面的商品
     getSellingPlistData();
+    // 获取热门商品
+    getBestPlistData();
 
   }
 
@@ -83,6 +85,17 @@ class HomeController extends GetxController {
     if (response != null) {
       var plist = PlistModel.fromJson(response.data);
       sellingPlist.value = plist.result!;
+      update();
+    }
+  }
+
+
+  //获取热门商品数据
+  getBestPlistData() async {
+    var response = await httpsClient.get("api/plist?is_best=1");
+    if (response != null) {
+      var plist = PlistModel.fromJson(response.data);
+      bestPlist.value = plist.result!;
       update();
     }
   }

@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 
 import 'package:get/get.dart';
@@ -164,7 +167,7 @@ class HomeView extends GetView<HomeController> {
     }
 
 
-    //热销臻选
+    ///热销臻选
     Widget bestSelling() {
       return Column(
         children: [
@@ -242,8 +245,8 @@ class HomeView extends GetView<HomeController> {
                           children: controller.sellingPlist
                               .asMap()
                               .entries
-                              .map((entrie) {
-                            var value = entrie.value;
+                              .map((entries) {
+                            var value = entries.value;
                             return Expanded(
                                 flex: 1,
                                 child: Container(
@@ -252,7 +255,7 @@ class HomeView extends GetView<HomeController> {
                                       0,
                                       0,
                                       0,
-                                      entrie.key == 2
+                                      entries.key == 2
                                           ? 0
                                           : ScreenAdapter.height(20)),
                                   child: Row(
@@ -308,6 +311,148 @@ class HomeView extends GetView<HomeController> {
       );
     }
 
+    Widget bestGoods() {
+      return Column(
+        children: [
+          Padding(
+              padding: EdgeInsets.fromLTRB(
+                  ScreenAdapter.width(30),
+                  ScreenAdapter.height(40),
+                  ScreenAdapter.width(30),
+                  ScreenAdapter.height(20)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("省心优惠",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: ScreenAdapter.fontSize(46))),
+                  Text("全部优惠 >",
+                      style: TextStyle(fontSize: ScreenAdapter.fontSize(38)))
+                ],
+              )),
+          Obx(() => Container(
+            padding: EdgeInsets.all(ScreenAdapter.width(26)),
+            color: const Color.fromRGBO(246, 246, 246, 1),
+            child: MasonryGridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: ScreenAdapter.width(26),
+              crossAxisSpacing: ScreenAdapter.width(26),
+              itemCount: controller.bestPlist.length, //注意
+              shrinkWrap: true, //收缩，让元素宽度自适应
+              physics: const NeverScrollableScrollPhysics(), //禁止滑动
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: (){
+                    Get.toNamed("/product-content",arguments: {
+                      "id":controller.bestPlist[index].sId
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(ScreenAdapter.width(20)),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                          child: Image.network(
+                            HttpsClient.replaceUri(
+                                controller.bestPlist[index].sPic),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                          width: double.infinity,
+                          child: Text(
+                            "${controller.bestPlist[index].title}",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: ScreenAdapter.fontSize(42),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                          width: double.infinity,
+                          child: Text(
+                            "${controller.bestPlist[index].subTitle}",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: ScreenAdapter.fontSize(32)),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                          width: double.infinity,
+                          child: Text(
+                            "¥${controller.bestPlist[index].price}",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: ScreenAdapter.fontSize(32),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ))
+        ],
+      );
+    }
+
+
+    // Widget bestGoods(){
+    //   return Column(
+    //     children: [
+    //       Padding(
+    //           padding: EdgeInsets.fromLTRB(
+    //               ScreenAdapter.width(30),
+    //               ScreenAdapter.height(40),
+    //               ScreenAdapter.width(30),
+    //               ScreenAdapter.height(20)),
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             children: [
+    //               Text("省心优惠",
+    //                   style: TextStyle(
+    //                       fontWeight: FontWeight.bold,
+    //                       fontSize: ScreenAdapter.fontSize(46))),
+    //               Text("全部优惠 >",
+    //                   style: TextStyle(fontSize: ScreenAdapter.fontSize(38)))
+    //             ],
+    //           )),
+    //       Container(
+    //         child: MasonryGridView.count(
+    //             crossAxisCount: 2,
+    //             mainAxisSpacing: ScreenAdapter.width(20),
+    //             crossAxisSpacing: ScreenAdapter.width(20),
+    //             itemCount: 20,
+    //             shrinkWrap: true, //收缩，让宽度自适应
+    //             physics: const NeverScrollableScrollPhysics(),
+    //             itemBuilder: (context,index){
+    //               var height = 50+150*Random().nextDouble();
+    //           return Container(
+    //             height: height,
+    //               decoration: BoxDecoration(
+    //                 border: Border.all(color: Colors.yellow,width: 1)
+    //               ),
+    //               child: const Text("dsda"));
+    //         }),
+    //       )
+    //     ],
+    //   );
+    // }
+
+
     ///内容区域
     Widget getHomePage() {
       return Positioned(
@@ -341,7 +486,8 @@ class HomeView extends GetView<HomeController> {
                     height: ScreenAdapter.height(420),
                     ),
               ),
-            bestSelling()
+            bestSelling(),
+            bestGoods(),
           ],
         ),
       );
