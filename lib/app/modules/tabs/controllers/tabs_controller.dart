@@ -10,8 +10,8 @@ class TabsController extends GetxController {
   //TODO: Implement TabsController
 
 
-  final currentIndex = 0.obs;
-  final PageController pageController = PageController(initialPage: 0);
+  final currentIndex = 1.obs;
+  final PageController pageController = PageController(initialPage: 1);
   final pages = const [
     HomeView(),
     CategoryView(),
