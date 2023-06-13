@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,14 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    scrollControllerListener();
+    ///请求接口
+    getFocusData();
+
+  }
+
+  scrollControllerListener(){
     scrollController.addListener(() {
       if(scrollController.position.pixels>10&&scrollController.position.pixels<20){
         if(flag.value == false){
@@ -27,14 +36,13 @@ class HomeController extends GetxController {
     });
   }
 
+  getFocusData()async{
+    var res = await Dio().get("https://xiaomi.itying.com/api/focus");
+    swiperList.value = res.data["result"];
+    update();
+  }
 
   RxList swiperList = [
-    {
-      "url":"https://www.itying.com/images/focus/focus02.png",
-    },
-    {
-      "url":"https://www.itying.com/images/focus/focus02.png",
-    }
   ].obs;
 
   @override
@@ -44,10 +52,9 @@ class HomeController extends GetxController {
     scrollController.dispose();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+
+
+
 
 
 }

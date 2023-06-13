@@ -104,18 +104,20 @@ class HomeView extends GetView<HomeController> {
             SizedBox(
               width: ScreenAdapter.width(1080),
               height: ScreenAdapter.height(682),
-              child: Swiper(
+              child: Obx(() => Swiper(
                 itemCount: controller.swiperList.length,
                 itemBuilder: (context,index){
-                  return Image.network(controller.swiperList.value[index]["url"],fit: BoxFit.fill,);
+                  String picUrl = "https://xiaomi.itying.com/${controller.swiperList.value[index]["pic"]}";
+                  
+                  return Image.network(picUrl.replaceAll("\\", "/"),fit: BoxFit.fill,);
                 },
                 pagination: const SwiperPagination(
-                  builder: SwiperPagination.rect
+                    builder: SwiperPagination.rect
                 ),
                 autoplay: true,
                 loop: true,
                 duration: 1000,
-              ),
+              )),
             )
           ],
         ),
@@ -132,5 +134,8 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
     );
+
+
+
   }
 }
