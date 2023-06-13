@@ -38,9 +38,15 @@ void main() async{
           debugShowCheckedModeBanner: false,
           translations: Messages(),
           locale: deviceLocale,
+          //配置主题
+          theme: ThemeData(
+            primarySwatch: Colors.grey
+          ),
           fallbackLocale: const Locale('en','US'),
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
+          //配置iOS动画
+          defaultTransition: Transition.rightToLeft,
         );
       },
     ),
