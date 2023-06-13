@@ -90,8 +90,32 @@ class HomeView extends GetView<HomeController> {
               )));
     }
 
+    Widget swiper() {
+      return SizedBox(
+        width: ScreenAdapter.width(1080),
+        height: ScreenAdapter.height(682),
+        child: Obx(() => Swiper(
+              itemCount: controller.swiperList.length,
+              itemBuilder: (context, index) {
+                String picUrl =
+                    "https://xiaomi.itying.com/${controller.swiperList.value[index].pic}";
+
+                return Image.network(
+                  picUrl.replaceAll("\\", "/"),
+                  fit: BoxFit.fill,
+                );
+              },
+              pagination:
+                  const SwiperPagination(builder: SwiperPagination.rect),
+              autoplay: true,
+              loop: true,
+              duration: 1000,
+            )),
+      );
+    }
+
     ///内容区域
-    Widget getHomePage(){
+    Widget getHomePage() {
       return Positioned(
         top: -ScreenAdapter.height(180),
         right: 0,
@@ -101,24 +125,59 @@ class HomeView extends GetView<HomeController> {
         child: ListView(
           controller: controller.scrollController,
           children: [
+            swiper(),
             SizedBox(
               width: ScreenAdapter.width(1080),
-              height: ScreenAdapter.height(682),
-              child: Obx(() => Swiper(
-                itemCount: controller.swiperList.length,
-                itemBuilder: (context,index){
-                  String picUrl = "https://xiaomi.itying.com/${controller.swiperList.value[index].pic}";
-                  
-                  return Image.network(picUrl.replaceAll("\\", "/"),fit: BoxFit.fill,);
+              height: ScreenAdapter.height(92),
+              child: Image.asset(
+                "assets/images/xiaomiBanner.png",
+                fit: BoxFit.cover,
+              ),
+            ),
+            Obx(() => SizedBox(
+              width: ScreenAdapter.width(1080),
+              height: ScreenAdapter.height(470),
+              child: Swiper(
+                itemCount: (controller.bestCateList.length) ~/ (10),
+                itemBuilder: (context, index) {
+                  return GridView.builder(
+                      itemCount: 10,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 5,
+                          crossAxisSpacing: ScreenAdapter.width(20),
+                          mainAxisSpacing: ScreenAdapter.height(20)
+                      ),
+                      itemBuilder: (context, i) {
+                        String picUrl =
+                            "https://xiaomi.itying.com/${controller.bestCateList.value[index*10+i].pic}";
+                        return Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                height: ScreenAdapter.height(140),
+                                width: ScreenAdapter.height(140),
+                                child: Image.network(
+                                  picUrl.replaceAll("\\", "/"),
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:  EdgeInsets.fromLTRB(0, ScreenAdapter.height(4), 0, 0),
+                              child: Text(controller.bestCateList.value[index*10+i].title??'',style: TextStyle(fontSize: ScreenAdapter.fontSize(34)),),
+                            )
+                          ],
+                        );
+                      });
                 },
-                pagination: const SwiperPagination(
-                    builder: SwiperPagination.rect
-                ),
+                pagination:
+                const SwiperPagination(builder: SwiperPagination.rect),
                 autoplay: true,
                 loop: true,
                 duration: 1000,
-              )),
-            )
+              ),
+            ))
           ],
         ),
       );
@@ -134,8 +193,5 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
     );
-
-
-
   }
 }

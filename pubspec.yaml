@@ -11,6 +11,8 @@ dependencies:
   get: 4.6.5
   dio: ^5.2.1
   flutter_swiper_view: ^1.1.8
+  shared_preferences:
+  crypto:
   flutter: 
     sdk: flutter
 
@@ -25,6 +27,35 @@ flutter:
     - family: xiaomi
       fonts:
         - asset: assets/fonts/iconfont.ttf
+    - family: userIcon
+      fonts:
+        - asset: assets/fonts/userIconfont.ttf
+  assets:
+    - assets/images/xiaomiBanner.png
+    - assets/images/2.0x/xiaomiBanner.png
+    - assets/images/3.0x/xiaomiBanner.png
+    - assets/images/xiaomiBanner2.png
+    - assets/images/2.0x/xiaomiBanner2.png
+    - assets/images/3.0x/xiaomiBanner2.png
+    - assets/images/hot_search.png
+    - assets/images/2.0x/hot_search.png
+    - assets/images/3.0x/hot_search.png
+    - assets/images/service.png
+    - assets/images/2.0x/service.png
+    - assets/images/3.0x/service.png
+    - assets/images/user.png
+    - assets/images/2.0x/user.png
+    - assets/images/3.0x/user.png
+    - assets/images/user_ad1.png
+    - assets/images/2.0x/user_ad1.png
+    - assets/images/3.0x/user_ad1.png
+    - assets/images/user_ad2.png
+    - assets/images/2.0x/user_ad2.png
+    - assets/images/3.0x/user_ad2.png
+    - assets/images/logo.png
+    - assets/images/2.0x/logo.png
+    - assets/images/3.0x/logo.png
+
 
 
 

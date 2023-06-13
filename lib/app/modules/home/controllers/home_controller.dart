@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xiaomi/app/models/focus_model.dart';
 
+import '../../../models/category_model.dart';
+
 class HomeController extends GetxController {
   //TODO: Implement HomeController
 
@@ -11,6 +13,7 @@ class HomeController extends GetxController {
   RxBool flag = false.obs;
   //轮播图item
   RxList<FocusItemModel> swiperList = <FocusItemModel>[].obs;
+  RxList<CategoryItemModel> bestCateList = <CategoryItemModel>[].obs;
   @override
   void onInit() {
     super.onInit();
@@ -18,6 +21,7 @@ class HomeController extends GetxController {
     scrollControllerListener();
     ///请求接口
     getFocusData();
+    getCategoryData();
 
   }
 
@@ -43,7 +47,13 @@ class HomeController extends GetxController {
     var res = await Dio().get("https://xiaomi.itying.com/api/focus");
     List value = res.data["result"];
     swiperList.value = value.map((e) => FocusItemModel.fromJson(e)).toList();
-    
+    update();
+  }
+
+  getCategoryData()async{
+    var res = await Dio().get("https://xiaomi.itying.com/api/bestCate");
+    List value = res.data["result"];
+    bestCateList.value = value.map((e) => CategoryItemModel.fromJson(e)).toList();
     update();
   }
 
@@ -55,10 +65,4 @@ class HomeController extends GetxController {
     super.dispose();
     scrollController.dispose();
   }
-
-
-
-
-
-
 }
