@@ -57,33 +57,38 @@ class CategoryView extends GetView<CategoryController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Container(
-          width: ScreenAdapter.width(840),
-          height: ScreenAdapter.height(96),
-          decoration: BoxDecoration(
-              color: const Color.fromRGBO(246, 246, 246, 1),
-              borderRadius: BorderRadius.circular(30)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.search,
-                      color: Colors.grey[400],
-                    ),
-                    Text(
-                      "手机",
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: ScreenAdapter.fontSize(40)),
-                    ),
-                  ],
-                ),
-              ],
+        title: InkWell(
+          onTap: (){
+            Get.toNamed("/search");
+          },
+          child: Container(
+            width: ScreenAdapter.width(840),
+            height: ScreenAdapter.height(96),
+            decoration: BoxDecoration(
+                color: const Color.fromRGBO(246, 246, 246, 1),
+                borderRadius: BorderRadius.circular(30)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.search,
+                        color: Colors.grey[400],
+                      ),
+                      Text(
+                        "手机",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenAdapter.fontSize(40)),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -13,6 +13,7 @@ class ProductListController extends GetxController {
 
   int page = 1;
   int pageSize = 8;
+  //控制请求的开关
   bool flag = true;
   RxBool hasData = true.obs;
   String sort = "";
@@ -73,7 +74,7 @@ class ProductListController extends GetxController {
       sort =
       "${subHeaderList[id - 1]["fileds"]}_${subHeaderList[id - 1]["sort"]}";
       //改变状态
-      subHeaderList[id - 1]["sort"]=subHeaderList[id - 1]["sort"]*-1;
+      subHeaderList[id - 1]["sort"]=subHeaderList[id - 1]["sort"]*(-1);
       //作用更新状态
       subHeaderListSort.value=subHeaderList[id - 1]["sort"];
       //重置page
@@ -89,12 +90,10 @@ class ProductListController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+
 
   void getPlistData() async {
+    ///当滚动条滚到位置请求数据时，此时数据还没拿到 如果这时候再滚动，旧会造成多次请求的问题，需要需要添加一个标识来标识现在正在请求中
     if (flag && hasData.value) {
       flag = false;
       if(cid!=null){
@@ -102,11 +101,10 @@ class ProductListController extends GetxController {
       }else{
         apiUri="api/plist?search=$keywords&page=$page&pageSize=$pageSize&sort=$sort";
       }
-      print(apiUri);
       var response = await httpsClient.get(apiUri);
       if (response != null) {
         var plistTemp = PlistModel.fromJson(response.data);
-        //注意:拼接数据
+        ///注意:拼接数据
         plist.addAll(plistTemp.result!);
         page++;
         update();

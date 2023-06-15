@@ -28,39 +28,44 @@ class HomeView extends GetView<HomeController> {
                 backgroundColor:
                     controller.flag.value ? Colors.white : Colors.transparent,
                 elevation: 0,
-                title: AnimatedContainer(
-                  duration: const Duration(milliseconds: 600),
-                  width: controller.flag.value
-                      ? ScreenAdapter.width(800)
-                      : ScreenAdapter.width(620),
-                  height: ScreenAdapter.height(96),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.search,
-                              color: Colors.grey[400],
-                            ),
-                            Text(
-                              "手机",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: ScreenAdapter.fontSize(40)),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.settings_overscan,
-                          color: Colors.grey[400],
-                        )
-                      ],
+                title: InkWell(
+                  onTap: (){
+                    Get.toNamed("/search");
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 600),
+                    width: controller.flag.value
+                        ? ScreenAdapter.width(800)
+                        : ScreenAdapter.width(620),
+                    height: ScreenAdapter.height(96),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.search,
+                                color: Colors.grey[400],
+                              ),
+                              Text(
+                                "手机",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: ScreenAdapter.fontSize(40)),
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            Icons.settings_overscan,
+                            color: Colors.grey[400],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -246,6 +246,7 @@ class ProductListView extends GetView<ProductListController> {
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
+          ///去掉默认的endDrawer按钮
           actions: const [Text("")],
         ),
         body: Obx(() => controller.plist.isNotEmpty
