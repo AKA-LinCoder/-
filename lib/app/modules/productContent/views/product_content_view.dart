@@ -7,25 +7,50 @@ import '../controllers/product_content_controller.dart';
 
 class ProductContentView extends GetView<ProductContentController> {
   const ProductContentView({Key? key}) : super(key: key);
-  
-  appBarTitle(String title){
-    return  Padding(
-      padding: EdgeInsets.zero,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(title,style: TextStyle(fontSize: ScreenAdapter.fontSize(40)),),
-          Container(
-            margin: EdgeInsets.only(top: ScreenAdapter.height(10)),
-            height: ScreenAdapter.height(4),
-            width: ScreenAdapter.width(100),
-            color: Colors.orange,
-          )
-        ],
+
+
+  ///@title appBarTitle
+  ///@description appbar标题
+  ///@param: title
+  ///@param: id
+  ///@return: Widget
+  ///@updateTime 2023/6/16 15:58
+  ///@author LinGuanYu
+  Widget appBarTitle(String title,int id){
+
+    return  GestureDetector(
+      onTap: (){
+       changeSelectedTabIndex(id);
+      },
+      child: Padding(
+        padding: EdgeInsets.zero,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(title,style: TextStyle(fontSize: ScreenAdapter.fontSize(40)),),
+            Container(
+              margin: EdgeInsets.only(top: ScreenAdapter.height(10)),
+              height: ScreenAdapter.height(4),
+              width: ScreenAdapter.width(100),
+              color: controller.selectedTabsIndex.value==id?Colors.orange:Colors.transparent,
+            )
+          ],
+        ),
       ),
     );
   }
-  
+
+  changeSelectedTabIndex(int index){
+    controller.selectedTabsIndex.value = index;
+    //跳转到指定的容器
+    if(index==1){
+      Scrollable.ensureVisible(controller.gk1.currentContext as BuildContext);
+    }else if(index==2){
+      Scrollable.ensureVisible(controller.gk2.currentContext as BuildContext);
+    }else{
+      Scrollable.ensureVisible(controller.gk3.currentContext as BuildContext);
+    }
+  }
   
   
   @override
@@ -34,7 +59,7 @@ class ProductContentView extends GetView<ProductContentController> {
       //body内容拓展到appBar下
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
-        preferredSize: Size(ScreenAdapter.height(1080),ScreenAdapter.height(96)
+        preferredSize: Size(ScreenAdapter.height(1080),ScreenAdapter.height(120)
         ),
         child:Obx(() =>  AppBar(
           backgroundColor: Colors.white.withOpacity(controller.opacity.value),
@@ -43,16 +68,10 @@ class ProductContentView extends GetView<ProductContentController> {
               alignment: Alignment.center,
               width: ScreenAdapter.width(400),
               height: ScreenAdapter.height(96),
-              child: Row(
+              child: controller.showTabs.value?Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  appBarTitle("商品"),
-
-                  appBarTitle("详情"),
-
-                  appBarTitle("推荐")
-                ],
-              )),
+                children: controller.tabsList.map((e) => appBarTitle(e["title"], e["id"])).toList(),
+              ):const Text("")),
           centerTitle: true,
           //leading 默认高度是appbar的高,解决办法给外层一个空的container，让真正的元素作为child
           leading: Container(
@@ -88,7 +107,7 @@ class ProductContentView extends GetView<ProductContentController> {
                     shape: MaterialStateProperty.all(const CircleBorder()),
                     elevation: MaterialStateProperty.all(0),
                   ),
-                  child: Icon(Icons.file_upload_outlined)),
+                  child: const Icon(Icons.file_upload_outlined)),
             ),
             SizedBox(width: ScreenAdapter.width(30),),
             SizedBox(
@@ -110,39 +129,41 @@ class ProductContentView extends GetView<ProductContentController> {
           ],
         )),
       ),
-      body: ListView(
+      body: SingleChildScrollView(
         controller: controller.scrollController,
-        children:  [
-          Container(
-            width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(400),
-            color: Colors.indigo,
-          ),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-          ListTile(title: Text("我是你爹"),),
-        ],
+        child:  Column(
+          children: [
+            Container(
+              key: controller.gk1,
+              width: ScreenAdapter.width(1080),
+              height: ScreenAdapter.height(700),
+              color: Colors.indigo,
+              child: const Center(
+                child: Text("我是商品"),
+              ),
+            ),
+
+            Container(
+              key: controller.gk2,
+              width: ScreenAdapter.width(1080),
+              height: ScreenAdapter.height(1500),
+              color: Colors.deepOrangeAccent,
+              child: const Center(
+                child: Text("我是详情"),
+              ),
+            ),
+
+            Container(
+              key: controller.gk3,
+              width: ScreenAdapter.width(1080),
+              height: ScreenAdapter.height(1500),
+              color: Colors.orange,
+              child: const Center(
+                child: Text("我是推荐"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
