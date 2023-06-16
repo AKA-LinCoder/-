@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:xiaomi/app/services/search_services.dart';
 
 import '../../../services/screen_adapter.dart';
 import '../controllers/search_controller.dart';
@@ -20,14 +21,16 @@ class SearchView extends GetView<SearchPageController> {
               color: Colors.white, borderRadius: BorderRadius.circular(30)),
           child: TextField(
             autofocus: true,
-
             ///修改框框的字体大小
             style: TextStyle(fontSize: ScreenAdapter.fontSize(36)),
             onChanged: (text){
               controller.keywords = text;
             },
             //监听键盘的回车事件
-            onSubmitted: (text){
+            onSubmitted: (text)async{
+              //保存搜索记录
+              await SearchServices.setHistoryData(text);
+
               Get.offAndToNamed("/product-list",arguments: {"keywords":text});
             },
             decoration: InputDecoration(
@@ -43,7 +46,9 @@ class SearchView extends GetView<SearchPageController> {
         centerTitle: true,
         actions: [
           TextButton(
-              onPressed: () {
+              onPressed: () async{
+                //保存搜索记录
+                await SearchServices.setHistoryData(controller.keywords);
                 //替换路由
                 Get.offAndToNamed("/product-list",arguments: {"keywords":controller.keywords});
               },
@@ -55,7 +60,7 @@ class SearchView extends GetView<SearchPageController> {
               ))
         ],
       ),
-      body: ListView(
+      body: Obx(() => ListView(
         padding: EdgeInsets.all(ScreenAdapter.width(20)),
         children: [
           Row(
@@ -67,37 +72,107 @@ class SearchView extends GetView<SearchPageController> {
                     fontWeight: FontWeight.bold,
                     fontSize: ScreenAdapter.fontSize(43)),
               ),
-              const Icon(Icons.delete)
+              IconButton(onPressed: ()async{
+                Get.bottomSheet(Container(
+                  padding: EdgeInsets.all(ScreenAdapter.width(20)),
+                  color: Colors.white,
+                  width: ScreenAdapter.width(1080),
+                  height: ScreenAdapter.height(360),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "您确定要清空历史记录吗?",
+                            style: TextStyle(
+                                fontSize:
+                                ScreenAdapter.fontSize(48)),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: ScreenAdapter.height(40)),
+                      Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(
+                            width: ScreenAdapter.width(420),
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                    MaterialStateProperty.all(
+                                        const Color.fromARGB(123, 151,
+                                            147, 147)),
+                                    foregroundColor:
+                                    MaterialStateProperty.all(
+                                        Colors.white)),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: const Text("取消")),
+                          ),
+                          SizedBox(
+                              width: ScreenAdapter.width(420),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                      MaterialStateProperty.all(
+                                          const Color.fromARGB(
+                                              123,
+                                              151,
+                                              147,
+                                              147)),
+                                      foregroundColor:
+                                      MaterialStateProperty.all(
+                                          Colors.red)),
+                                  onPressed: () {
+                                    controller.clearHistoryData();
+                                    Get.back();
+                                  },
+                                  child: const Text("确定"))),
+                        ],
+                      )
+                    ],
+                  ),
+                ));
+              }, icon: const Icon(Icons.delete))
             ],
           ),
           Wrap(
-            children: [
-              Container(
-                padding: EdgeInsets.all(ScreenAdapter.width(16)),
-                margin: EdgeInsets.all(ScreenAdapter.width(16)),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white),
-                child: const Text("红米"),
-              ),
-              Container(
-                padding: EdgeInsets.all(ScreenAdapter.width(16)),
-                margin: EdgeInsets.all(ScreenAdapter.width(16)),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white),
-                child: const Text("手机壳"),
-              ),
-              Container(
-                padding: EdgeInsets.all(ScreenAdapter.width(16)),
-                margin: EdgeInsets.all(ScreenAdapter.width(16)),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white),
-                child: const Text("手机"),
-              )
-            ],
-          ),
+              children: controller.historyList
+                  .map((value) => GestureDetector(
+                onLongPress: () {
+                  Get.defaultDialog(
+                      title: "提示信息!",
+                      middleText: "您确定要删除吗?",
+                      confirm: ElevatedButton(
+                          onPressed: () {
+                            controller.removeHistoryData(value);
+                            Get.back();
+                          },
+                          child: const Text("确定")),
+                      cancel: ElevatedButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text("取消")));
+                },
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                      ScreenAdapter.width(32),
+                      ScreenAdapter.width(16),
+                      ScreenAdapter.width(32),
+                      ScreenAdapter.width(16)),
+                  margin: EdgeInsets.all(ScreenAdapter.height(16)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Text(value),
+                ),
+              ))
+                  .toList()),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -138,6 +213,12 @@ class SearchView extends GetView<SearchPageController> {
               )
             ],
           ),
+
+
+
+
+
+
           //热销商品
           Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
@@ -182,7 +263,7 @@ class SearchView extends GetView<SearchPageController> {
             ),
           )
         ],
-      ),
+      )),
     );
   }
 }
