@@ -23,6 +23,13 @@ class SearchView extends GetView<SearchPageController> {
 
             ///修改框框的字体大小
             style: TextStyle(fontSize: ScreenAdapter.fontSize(36)),
+            onChanged: (text){
+              controller.keywords = text;
+            },
+            //监听键盘的回车事件
+            onSubmitted: (text){
+              Get.offAndToNamed("/product-list",arguments: {"keywords":text});
+            },
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.search),
               contentPadding: EdgeInsets.zero,
@@ -36,7 +43,10 @@ class SearchView extends GetView<SearchPageController> {
         centerTitle: true,
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                //替换路由
+                Get.offAndToNamed("/product-list",arguments: {"keywords":controller.keywords});
+              },
               child: Text(
                 "搜索",
                 style: TextStyle(
@@ -152,23 +162,20 @@ class SearchView extends GetView<SearchPageController> {
                           mainAxisSpacing: ScreenAdapter.height(20),
                           childAspectRatio: 3 / 1),
                       itemBuilder: (context, index) {
-                        return Container(
-                            // color: Colors.white,
-
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(ScreenAdapter.width(10)),
-                                  alignment: Alignment.center,
-                                  width: ScreenAdapter.width(120),
-                                  child: Image.network("https://www.itying.com/images/shouji.png"),
-                                ),
-                                Expanded(child: Padding(
-                                  padding:  EdgeInsets.all(ScreenAdapter.width(10)),
-                                  child: Text("小米热水器"),
-                                )),
-                              ],
-                            ));
+                        return Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                              alignment: Alignment.center,
+                              width: ScreenAdapter.width(120),
+                              child: Image.network("https://www.itying.com/images/shouji.png"),
+                            ),
+                            Expanded(child: Padding(
+                              padding:  EdgeInsets.all(ScreenAdapter.width(10)),
+                              child: Text("小米热水器"),
+                            )),
+                          ],
+                        );
                       }),
                 )
               ],
