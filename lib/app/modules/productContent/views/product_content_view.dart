@@ -87,7 +87,9 @@ class ProductContentView extends GetView<ProductContentController> {
           width: ScreenAdapter.width(100),
           height: ScreenAdapter.width(100),
           child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.back();
+              },
               style: ButtonStyle(
                 //button里面有默认的边距 得去掉才能居中
                 padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -367,13 +369,12 @@ class ProductContentView extends GetView<ProductContentController> {
                                               10)))),
                               onPressed: () {
                                 if (action == 2) {
-
                                   controller.addCart();
                                 } else {
                                   controller.buy();
                                 }
                               },
-                              child: Text("确定"),
+                              child: const Text("确定"),
                             ),
                           ))
                     ],
@@ -441,7 +442,9 @@ class ProductContentView extends GetView<ProductContentController> {
                             ),
                             foregroundColor:
                                 MaterialStateProperty.all(Colors.white)),
-                        onPressed: () {},
+                        onPressed: () {
+                          showBottomAttr(2);
+                        },
                         child: const Text("加入购物车"),
                       ),
                     )),
@@ -459,7 +462,9 @@ class ProductContentView extends GetView<ProductContentController> {
                             ),
                             foregroundColor:
                                 MaterialStateProperty.all(Colors.white)),
-                        onPressed: () {},
+                        onPressed: () {
+                          showBottomAttr(3);
+                        },
                         child: const Text("立即购买"),
                       ),
                     ))

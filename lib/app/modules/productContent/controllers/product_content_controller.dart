@@ -68,8 +68,8 @@ class ProductContentController extends GetxController {
   //获取详情数据
   getContentData() async {
     var response =
-    // await httpsClient.get("api/pcontent?id=${Get.arguments["id"]}");
-    await httpsClient.get("api/pcontent?id=6333cc2d9e8e3a0f80512495");
+    await httpsClient.get("api/pcontent?id=${Get.arguments["id"]}");
+    // await httpsClient.get("api/pcontent?id=6333cc2d9e8e3a0f80512495");
     if (response != null) {
       print(response.data);
       var tempData = PcontentModel.fromJson(response.data);
