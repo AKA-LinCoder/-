@@ -44,11 +44,11 @@ class ProductContentView extends GetView<ProductContentController> {
     controller.selectedTabsIndex.value = index;
     //跳转到指定的容器
     if(index==1){
-      Scrollable.ensureVisible(controller.gk1.currentContext as BuildContext);
+      Scrollable.ensureVisible(controller.gk1.currentContext as BuildContext,duration: const Duration(milliseconds: 100));
     }else if(index==2){
-      Scrollable.ensureVisible(controller.gk2.currentContext as BuildContext);
+      Scrollable.ensureVisible(controller.gk2.currentContext as BuildContext,duration: const Duration(milliseconds: 100));
     }else{
-      Scrollable.ensureVisible(controller.gk3.currentContext as BuildContext);
+      Scrollable.ensureVisible(controller.gk3.currentContext as BuildContext,duration: const Duration(milliseconds: 100));
     }
   }
   
