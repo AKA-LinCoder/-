@@ -122,23 +122,59 @@ class ProductContentView extends GetView<ProductContentController> {
           child: ElevatedButton(
               onPressed: () {
                 showMenu(
-                  color: Colors.black87.withOpacity(0.7),
+                    color: Colors.black87.withOpacity(0.7),
                     elevation: 0,
                     context: context,
-                    position: RelativeRect.fromLTRB(ScreenAdapter.width(80), ScreenAdapter.height(320),
-                        ScreenAdapter.width(20), 0),
-                    items:  [
+                    position: RelativeRect.fromLTRB(ScreenAdapter.width(80),
+                        ScreenAdapter.height(320), ScreenAdapter.width(20), 0),
+                    items: [
                       PopupMenuItem(
                           child: Row(
-                        children: [const Icon(Icons.home,color: Colors.white,),SizedBox(width: ScreenAdapter.width(20),), const Text("首页",style: TextStyle(color: Colors.white),)],
+                        children: [
+                          const Icon(
+                            Icons.home,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: ScreenAdapter.width(20),
+                          ),
+                          const Text(
+                            "首页",
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
                       )),
                       PopupMenuItem(
                           child: Row(
-                        children: [const Icon(Icons.message,color: Colors.white,),SizedBox(width: ScreenAdapter.width(20),), const Text("消息",style: TextStyle(color: Colors.white),)],
+                        children: [
+                          const Icon(
+                            Icons.message,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: ScreenAdapter.width(20),
+                          ),
+                          const Text(
+                            "消息",
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
                       )),
                       PopupMenuItem(
                           child: Row(
-                        children: [const Icon(Icons.star,color: Colors.white,),SizedBox(width: ScreenAdapter.width(20),), const Text("收藏",style: TextStyle(color: Colors.white),)],
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: ScreenAdapter.width(20),
+                          ),
+                          const Text(
+                            "收藏",
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
                       )),
                     ]);
               },
@@ -197,6 +233,77 @@ class ProductContentView extends GetView<ProductContentController> {
     );
   }
 
+  Widget getBottom() {
+    return Positioned(
+        bottom: 0,
+        right: 0,
+        left: 0,
+        child: SafeArea(
+          child: Container(
+            height: ScreenAdapter.height(160),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                    top: BorderSide(
+                        width: ScreenAdapter.width(2), color: Colors.black26))),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: ScreenAdapter.width(200),
+                  height: ScreenAdapter.height(160),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.shopping_cart),
+                      Text(
+                        "购物车",
+                        style: TextStyle(fontSize: ScreenAdapter.fontSize(35)),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                    flex: 1,
+                    child: Container(
+                      height: ScreenAdapter.height(120),
+                      margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.yellow),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+                            ),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.white)),
+                        onPressed: () {},
+                        child: const Text("加入购物车"),
+                      ),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Container(
+                      height: ScreenAdapter.height(120),
+                      margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+                            ),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.white)),
+                        onPressed: () {},
+                        child: const Text("立即购买"),
+                      ),
+                    ))
+              ],
+            ),
+          ),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,7 +314,9 @@ class ProductContentView extends GetView<ProductContentController> {
             Size(ScreenAdapter.height(1080), ScreenAdapter.height(120)),
         child: Obx(() => getAppBar(context)),
       ),
-      body: getBody(),
+      body: Stack(
+        children: [getBody(), getBottom()],
+      ),
     );
   }
 }
