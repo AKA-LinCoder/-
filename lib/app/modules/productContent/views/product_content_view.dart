@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:xiaomi/app/modules/productContent/views/first_page_view.dart';
+import 'package:xiaomi/app/modules/productContent/views/second_page_view.dart';
+import 'package:xiaomi/app/modules/productContent/views/third_page_view.dart';
 import 'package:xiaomi/app/services/screen_adapter.dart';
 
 import '../controllers/product_content_controller.dart';
@@ -201,33 +204,9 @@ class ProductContentView extends GetView<ProductContentController> {
       controller: controller.scrollController,
       child: Column(
         children: [
-          Container(
-            key: controller.gk1,
-            width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(700),
-            color: Colors.indigo,
-            child: const Center(
-              child: Text("我是商品"),
-            ),
-          ),
-          Container(
-            key: controller.gk2,
-            width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(1500),
-            color: Colors.deepOrangeAccent,
-            child: const Center(
-              child: Text("我是详情"),
-            ),
-          ),
-          Container(
-            key: controller.gk3,
-            width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(1500),
-            color: Colors.orange,
-            child: const Center(
-              child: Text("我是推荐"),
-            ),
-          ),
+          FirstPageView(),
+          SecondPageView(),
+          ThirdPageView(),
         ],
       ),
     );
