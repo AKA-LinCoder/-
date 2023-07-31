@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../models/pcontent_model.dart';
 import '../../../services/cart_services.dart';
 import '../../../services/https_client.dart';
+import '../../../services/screen_adapter.dart';
 import '../../../services/storage.dart';
 import '../../../services/user_services.dart';
 
@@ -40,30 +41,123 @@ class ProductContentController extends GetxController {
   double gk2Position = 0;
   double gk3Position = 0;
 
+  //是否显示详情tab切换
+  RxBool showSubHeaderTabs = false.obs;
+
+
+
   //购买的数量
   RxInt buyNum = 1.obs;
 
+  List subTabsList = [
+    {
+      "id": 1,
+      "title": "商品介绍",
+    },
+    {"id": 2, "title": "规格参数"},
+  ];
 
+  RxInt selectedSubTabsIndex = 1.obs;
 
   @override
   void onInit() {
     super.onInit();
     getContentData();
     scrollController.addListener(() {
-      if(scrollController.position.pixels<=100&&scrollController.position.pixels>=0){
-        opacity.value = scrollController.position.pixels/100;
-        if(showTabs.value){
-          showTabs.value = false;
+      // if(scrollController.position.pixels<=100&&scrollController.position.pixels>=0){
+      //   opacity.value = scrollController.position.pixels/100;
+      //   if(showTabs.value){
+      //     showTabs.value = false;
+      //   }
+      // }else{
+      //   if(!showTabs.value&&scrollController.position.pixels>=0){
+      //       showTabs.value = true;
+      //   }
+      // }
+      // update();
+      //获取渲染后的元素的位置
+      if (gk2Position == 0 && gk3Position == 0) {
+        print(scrollController.position.pixels);
+        //获取Container高度的时候获取的是距离顶部的高度，如果要从0开始计算要加下滚动条下拉的高度
+        getContainerPosition(scrollController.position.pixels);
+      }
+      //显示隐藏详情 subHeader tab切换
+      if (scrollController.position.pixels > gk2Position &&
+          scrollController.position.pixels < gk3Position) {
+        if (showSubHeaderTabs.value == false) {
+          showSubHeaderTabs.value = true;
+          selectedTabsIndex.value = 2;
+          update();
         }
-      }else{
-        if(!showTabs.value&&scrollController.position.pixels>=0){
-            showTabs.value = true;
+      } else if (scrollController.position.pixels > 0 &&
+          scrollController.position.pixels < gk2Position) {
+        if (showSubHeaderTabs.value == true) {
+          showSubHeaderTabs.value = false;
+          selectedTabsIndex.value = 1;
+          update();
+        }
+      } else if (scrollController.position.pixels > gk2Position) {
+        if (showSubHeaderTabs.value == true) {
+          showSubHeaderTabs.value = false;
+          selectedTabsIndex.value = 3;
+          update();
         }
       }
-      update();
+
+      //显示隐藏顶部tab切换
+      if (scrollController.position.pixels <= 100) {
+        opacity.value = scrollController.position.pixels / 100;
+        if (opacity.value > 0.96) {
+          opacity.value = 1;
+        }
+        if (showTabs.value == true) {
+          showTabs.value = false;
+        }
+        update();
+      } else {
+        if (showTabs.value == false) {
+          showTabs.value = true;
+          update();
+        }
+      }
     });
   }
 
+  //获取元素位置   globalKey.currentContext!.findRenderObject()可以获取渲染的属性。
+  getContainerPosition(pixels) {
+    RenderBox box2 = gk2.currentContext!.findRenderObject() as RenderBox;
+    gk2Position = box2.localToGlobal(Offset.zero).dy +
+        pixels -
+        (ScreenAdapter.getStatusBarHeight() + ScreenAdapter.height(120));
+
+    RenderBox box3 = gk3.currentContext!.findRenderObject() as RenderBox;
+    gk3Position = box3.localToGlobal(Offset.zero).dy +
+        pixels -
+        (ScreenAdapter.getStatusBarHeight() + ScreenAdapter.height(120));
+    print(gk2Position);
+
+    print(gk3Position);
+  }
+
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  //改变顶部tab切换
+  void changeSelectedTabsIndex(index) {
+    selectedTabsIndex.value = index;
+    update();
+  }
+
+  //改变内容区域的tab切换
+  void changeSelectedSubTabsIndex(index) {
+    selectedSubTabsIndex.value = index;
+    //跳转到指定位置
+    scrollController.jumpTo(gk2Position);
+    update();
+  }
 
   //获取详情数据
   getContentData() async {

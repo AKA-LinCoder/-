@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -56,9 +58,26 @@ class ProductContentView extends GetView<ProductContentController> {
     } else if (index == 2) {
       Scrollable.ensureVisible(controller.gk2.currentContext as BuildContext,
           duration: const Duration(milliseconds: 100));
+      //修正
+      Timer.periodic(const Duration(milliseconds: 101),
+              (timer) {
+            controller.scrollController.jumpTo(
+                controller.scrollController.position.pixels -
+                    ScreenAdapter.height(120));
+            timer.cancel();
+          });
     } else {
       Scrollable.ensureVisible(controller.gk3.currentContext as BuildContext,
           duration: const Duration(milliseconds: 100));
+      //修正
+
+      Timer.periodic(const Duration(milliseconds: 101),
+              (timer) {
+            controller.scrollController.jumpTo(
+                controller.scrollController.position.pixels -
+                    ScreenAdapter.height(120));
+            timer.cancel();
+          });
     }
   }
 
@@ -303,7 +322,6 @@ class ProductContentView extends GetView<ProductContentController> {
                                   MaterialStateProperty.all(
                                       Colors.white),
                                   shape: MaterialStateProperty.all(
-                                    // CircleBorder()
                                       RoundedRectangleBorder(
                                           borderRadius:
                                           BorderRadius.circular(
@@ -311,7 +329,7 @@ class ProductContentView extends GetView<ProductContentController> {
                               onPressed: () {
                                 controller.addCart();
                               },
-                              child: Text("加入购物车"),
+                              child: const Text("加入购物车"),
                             ),
                           )),
                       Expanded(
@@ -339,7 +357,7 @@ class ProductContentView extends GetView<ProductContentController> {
 
                                 controller.buy();
                               },
-                              child: Text("立即购买"),
+                              child: const Text("立即购买"),
                             ),
                           ))
                     ],
@@ -392,7 +410,7 @@ class ProductContentView extends GetView<ProductContentController> {
       child: Column(
         children: [
           FirstPageView(showBottomAttr),
-          SecondPageView(),
+          SecondPageView(getSubHeader),
           ThirdPageView(),
         ],
       ),
@@ -474,6 +492,31 @@ class ProductContentView extends GetView<ProductContentController> {
         ));
   }
 
+
+  Widget getSubHeader() {
+    return Obx(() => Container(
+      color: Colors.white,
+      child: Row(
+          children: controller.subTabsList.map((value) {
+            return Expanded(
+                child: InkWell(
+                  onTap: () {
+                    controller.changeSelectedSubTabsIndex(value["id"]);
+                  },
+                  child: Container(
+                    height: ScreenAdapter.height(120),
+                    alignment: Alignment.center,
+                    child: Text("${value["title"]}",
+                        style: TextStyle(
+                            color: controller.selectedSubTabsIndex == value["id"]
+                                ? Colors.red
+                                : Colors.black87)),
+                  ),
+                ));
+          }).toList()),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -485,7 +528,14 @@ class ProductContentView extends GetView<ProductContentController> {
         child: Obx(() => getAppBar(context)),
       ),
       body: Stack(
-        children: [getBody(), getBottom()],
+        children: [getBody(), getBottom(),Obx(() => controller.showSubHeaderTabs.value
+            ? Positioned(
+            left: 0,
+            top: ScreenAdapter.getStatusBarHeight() +
+                ScreenAdapter.height(118),
+            right: 0,
+            child: getSubHeader())
+            : const Text("")),],
       ),
     );
   }

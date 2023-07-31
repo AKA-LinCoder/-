@@ -254,7 +254,7 @@ class FirstPageView extends GetView {
                 children: [
                   Row(
                     children: [
-                      Text("门店", style: TextStyle(fontWeight: FontWeight.bold)),
+                      const Text("门店", style: TextStyle(fontWeight: FontWeight.bold)),
                       Padding(
                         padding: EdgeInsets.only(left: ScreenAdapter.width(20)),
                         child: const Text("小米之家万达专卖店"),

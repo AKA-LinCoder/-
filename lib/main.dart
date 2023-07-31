@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +10,7 @@ import 'package:xiaomi/app/services/language.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async{
+
   Locale deviceLocale = const Locale('zh','CN');
   WidgetsFlutterBinding.ensureInitialized();
   if (Get.deviceLocale?.languageCode == 'zh') {
@@ -51,4 +54,5 @@ void main() async{
       },
     ),
   );
+  // runApp(MyApp());
 }

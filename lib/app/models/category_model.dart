@@ -49,7 +49,7 @@ class CategoryItemModel {
     status = json['status'];
     pic = json['pic'];
     pid = json['pid'];
-    sort = json['sort'];
+    sort = json['sort']=="0"?0:json['sort'];
     isBest = json['is_best'];
     goProduct = json['go_product'];
     productId = json['product_id'];
