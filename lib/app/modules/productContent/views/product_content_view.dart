@@ -525,6 +525,7 @@ class ProductContentView extends GetView<ProductContentController> {
       appBar: PreferredSize(
         preferredSize:
             Size(ScreenAdapter.height(1080), ScreenAdapter.height(120)),
+        ///存在重复调用的问题
         child: Obx(() => getAppBar(context)),
       ),
       body: Stack(
