@@ -13,7 +13,8 @@ import 'cart_item_num_view.dart';
 /// @Description TODO
 
 class CartItemView extends GetView<CartController> {
-  const CartItemView({Key? key}) : super(key: key);
+  final Map cartItem;
+  const CartItemView(this.cartItem, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,19 +39,19 @@ class CartItemView extends GetView<CartController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("小米11",style: TextStyle(fontSize: ScreenAdapter.fontSize(36),fontWeight: FontWeight.bold),),
+                Text(cartItem["title"].toString(),style: TextStyle(fontSize: ScreenAdapter.fontSize(36),fontWeight: FontWeight.bold),),
                 SizedBox(height: ScreenAdapter.height(20),),
-                const Row(
+                 Row(
                   children: [
-                    Chip(label:  Text("黑色"),)
+                    Chip(label:  Text(cartItem["selectedAttr"].toString()),)
                   ],
                 ),
                 SizedBox(height: ScreenAdapter.height(20),),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("¥98.9",style: TextStyle(fontSize: ScreenAdapter.fontSize(38),color: Colors.red),),
-                    const CartItemNumView()
+                    Text("¥${cartItem["price"]}",style: TextStyle(fontSize: ScreenAdapter.fontSize(38),color: Colors.red),),
+                    CartItemNumView(cartItem)
                   ],
                 )
               ],

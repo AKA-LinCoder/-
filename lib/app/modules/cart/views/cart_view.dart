@@ -20,11 +20,11 @@ class CartView extends GetView<CartController> {
       ),
       body:  Stack(
         children: [
-          ListView(
-            children: const [
-              CartItemView()
-            ],
-          ),
+          Obx(() => controller.cartList.isNotEmpty?ListView.builder(
+            itemCount: controller.cartList.length,
+        itemBuilder: (BuildContext context, int index) {
+              return CartItemView(controller.cartList[index]);
+        },):const Text('暂无数据')),
           Positioned(
               left: 0,
               right: 0,

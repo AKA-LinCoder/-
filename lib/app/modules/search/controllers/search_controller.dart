@@ -31,6 +31,7 @@ class SearchPageController extends GetxController {
     historyList.clear();
     update();
   }
+
   removeHistoryData(keywords) async{
     var tempList=await SearchServices.getHistoryData();
     if(tempList.isNotEmpty){

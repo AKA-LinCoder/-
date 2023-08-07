@@ -12,7 +12,8 @@ import '../controllers/cart_controller.dart';
 /// @Description TODO
 
 class CartItemNumView extends GetView<CartController> {
-  const CartItemNumView({Key? key}) :super (key: key);
+  final Map cartItem;
+  const CartItemNumView(this.cartItem, {Key? key}) :super (key: key);
 
   Widget _left(){
     return Container(
@@ -34,7 +35,7 @@ class CartItemNumView extends GetView<CartController> {
             right: BorderSide(width: ScreenAdapter.width(2),color: Colors.black12),
           )
       ),
-      child: const Text("5"),
+      child:  Text(cartItem["count"].toString()),
     );
   }
 

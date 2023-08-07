@@ -1,17 +1,22 @@
 import 'package:get/get.dart';
+import 'package:xiaomi/app/services/cart_services.dart';
 
 class CartController extends GetxController {
   //TODO: Implement CartController
 
-  final count = 0.obs;
+  RxList cartList = [].obs;
   @override
   void onInit() {
     super.onInit();
+    getCartListData();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+
+  getCartListData()async{
+    var tempList =  await CartServices.getCartList();
+    cartList.value = tempList;
+    update();
+
   }
 
   @override
@@ -19,5 +24,4 @@ class CartController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
 }
