@@ -94,7 +94,7 @@ class CartServices {
     }
   }
 
-  static void setCartList(cartListData) async {
+  static Future setCartList(cartListData) async {
     await Storage.setData("cartList", cartListData);
   }
 

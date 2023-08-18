@@ -13,14 +13,23 @@ import '../controllers/cart_controller.dart';
 
 class CartItemNumView extends GetView<CartController> {
   final Map cartItem;
-  const CartItemNumView(this.cartItem, {Key? key}) :super (key: key);
+  CartItemNumView(this.cartItem, {Key? key}) :super (key: key);
+
+
+  @override
+  final CartController controller = Get.find();
 
   Widget _left(){
-    return Container(
-      alignment: Alignment.center,
-      width: ScreenAdapter.width(80),
-      height: ScreenAdapter.height(60),
-      child: const Text("-"),
+    return InkWell(
+      onTap: ()async{
+        await controller.decCartNum(cartItem);
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: ScreenAdapter.width(80),
+        height: ScreenAdapter.height(60),
+        child: const Text("-"),
+      ),
     );
   }
 
@@ -40,11 +49,16 @@ class CartItemNumView extends GetView<CartController> {
   }
 
   Widget _right(){
-    return Container(
-      alignment: Alignment.center,
-      width: ScreenAdapter.width(80),
-      height: ScreenAdapter.height(60),
-      child: const Text("+"),
+    return InkWell(
+      onTap: ()async{
+        await controller.incCartNum(cartItem);
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: ScreenAdapter.width(80),
+        height: ScreenAdapter.height(60),
+        child: const Text("+"),
+      ),
     );
   }
 
