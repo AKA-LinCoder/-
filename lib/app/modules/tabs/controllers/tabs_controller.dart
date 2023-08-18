@@ -11,7 +11,7 @@ class TabsController extends GetxController {
 
 
   final currentIndex = 1.obs;
-  final PageController pageController = PageController(initialPage: 1);
+  final PageController pageController = PageController(initialPage: 4);
   final pages =  [
     HomeView(),
     CategoryView(),
