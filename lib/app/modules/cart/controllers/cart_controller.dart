@@ -5,6 +5,9 @@ class CartController extends GetxController {
   //TODO: Implement CartController
 
   RxList cartList = [].obs;
+
+  RxBool isAllCheck = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -13,6 +16,8 @@ class CartController extends GetxController {
   getCartListData() async {
     var tempList = await CartServices.getCartList();
     cartList.value = tempList;
+
+    isAllCheck.value = isCheckAll();
     update();
   }
 
@@ -67,13 +72,41 @@ class CartController extends GetxController {
       temp.add(cart);
     }
     cartList.value = temp;
+
     await CartServices.setCartList(cartList);
+    isAllCheck.value = isCheckAll();
     update();
 
   }
 
+  //全选反选
+  checkAll(bool? value) async{
+    isAllCheck.value = value??false;
+    var temp = [];
+    for(var cart in cartList){
+      cart["checked"] = value??false;
+      temp.add(cart);
+    }
+    cartList.value = temp;
+    await CartServices.setCartList(cartList);
+    update();
+  }
 
 
+
+  //判断是否全选
+bool isCheckAll(){
+    if(cartList.isNotEmpty){
+      for(var cart in cartList){
+        if(cart["checked"]==false){
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+
+}
 
 
 }

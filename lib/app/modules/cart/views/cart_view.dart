@@ -56,8 +56,12 @@ class CartView extends GetView {
                       children: [
                         Row(
                           children: [
-                            Checkbox(value: true, onChanged: (value){
+                            Checkbox(
+                                activeColor: Colors.red,
+                                value: controller.isAllCheck.value, onChanged: (value)async{
 
+
+                              await controller.checkAll(value);
                             }),
                             const Text("全选"),
                           ],
