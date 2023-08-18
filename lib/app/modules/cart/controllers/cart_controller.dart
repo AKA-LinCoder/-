@@ -8,7 +8,7 @@ class CartController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getCartListData();
+
   }
 
 

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xiaomi/app/services/https_client.dart';
 
 import '../../../services/screen_adapter.dart';
 import '../controllers/cart_controller.dart';
@@ -32,7 +35,7 @@ class CartItemView extends GetView<CartController> {
           Container(
             padding: EdgeInsets.all(ScreenAdapter.height(24)),
             width: ScreenAdapter.width(260),
-            child: Image.network("https://www.itying.com/images/shouji.png",fit: BoxFit.fill,),
+            child: Image.network(HttpsClient.replaceUri(cartItem["pic"].toString()),fit: BoxFit.fill,),
           ),
           SizedBox(width: ScreenAdapter.width(20),),
           Expanded(
