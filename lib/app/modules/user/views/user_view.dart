@@ -243,6 +243,8 @@ class UserView extends GetView<UserController> {
                 ),
                 GridView.count(
                   shrinkWrap: true, //收缩
+                  //禁止滑动
+                  physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 4,
                   childAspectRatio: 1.253,
                   children: const [
