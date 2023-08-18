@@ -30,7 +30,9 @@ class CartItemView extends GetView<CartController> {
         children: [
           SizedBox(
             width: ScreenAdapter.width(100),
-            child: Checkbox(activeColor: Colors.red,value: true, onChanged: (value){}),
+            child: Checkbox(activeColor: Colors.red,value: cartItem["checked"], onChanged: (value){
+              controller.checkCartItem(cartItem);
+            }),
           ),
           Container(
             padding: EdgeInsets.all(ScreenAdapter.height(24)),

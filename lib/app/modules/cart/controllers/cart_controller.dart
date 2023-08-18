@@ -56,4 +56,24 @@ class CartController extends GetxController {
     await CartServices.setCartList(cartList);
     update();
   }
+
+  //checkbox选中
+  checkCartItem(Map cartItem) async{
+    var temp = [];
+    for(var cart in cartList){
+      if(cart["_id"] == cartItem["_id"]&&cart["selectedAttr"] == cartItem["selectedAttr"]){
+        cart["checked"] = !cart["checked"];
+      }
+      temp.add(cart);
+    }
+    cartList.value = temp;
+    await CartServices.setCartList(cartList);
+    update();
+
+  }
+
+
+
+
+
 }
