@@ -435,15 +435,20 @@ class ProductContentView extends GetView<ProductContentController> {
                 SizedBox(
                   width: ScreenAdapter.width(200),
                   height: ScreenAdapter.height(160),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.shopping_cart),
-                      Text(
-                        "购物车",
-                        style: TextStyle(fontSize: ScreenAdapter.fontSize(35)),
-                      ),
-                    ],
+                  child: InkWell(
+                    onTap: (){
+                      Get.toNamed("/cart");
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.shopping_cart),
+                        Text(
+                          "购物车",
+                          style: TextStyle(fontSize: ScreenAdapter.fontSize(35)),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(

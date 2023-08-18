@@ -12,9 +12,10 @@ class TabsBinding extends Bindings {
     Get.lazyPut<TabsController>(
       () => TabsController(),
     );
-    Get.lazyPut<CartController>(
-      () => CartController(),
-    );
+    //当从详情页到购物车返回后，会销毁
+    // Get.lazyPut<CartController>(
+    //   () => CartController(),
+    // );
     Get.lazyPut<CategoryController>(
       () => CategoryController(),
     );

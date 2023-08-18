@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../modules/cart/bindings/cart_binding.dart';
 import '../modules/cart/views/cart_view.dart';
 import '../modules/category/views/category_view.dart';
 import '../modules/give/views/give_view.dart';
@@ -43,11 +44,11 @@ class AppPages {
     //   page: () => const GiveView(),
     //   binding: GiveBinding(),
     // ),
-    // GetPage(
-    //   name: _Paths.CART,
-    //   page: () => const CartView(),
-    //   binding: CartBinding(),
-    // ),
+    GetPage(
+      name: _Paths.CART,
+      page: () =>  CartView(),
+      // binding: CartBinding(),
+    ),
     // GetPage(
     //   name: _Paths.USER,
     //   page: () => const UserView(),

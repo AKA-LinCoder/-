@@ -6,8 +6,13 @@ import 'package:xiaomi/app/services/screen_adapter.dart';
 
 import '../controllers/cart_controller.dart';
 
-class CartView extends GetView<CartController> {
-  const CartView({Key? key}) : super(key: key);
+class CartView extends GetView {
+
+  //不使用依赖注入，手动获取controller
+  @override
+  CartController controller = Get.put(CartController());
+
+  CartView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
